@@ -24,7 +24,17 @@ def mean_squared_error_gd(y, tx, initial_w, max_iters, gamma):
         w: numpy array of shape (D,), last weights.
         loss: scalar, MSE loss of the last weights.
     """
-    raise NotImplementedError("todo: to be implemented")
+    w = initial_w.copy()
+    N = y.shape[0]
+    invN = 1 / N
+
+    for _ in range(max_iters):
+        error = tx @ w - y
+        gradient = (tx.T @ error) * invN
+        w = w - gamma * gradient
+
+    error = tx @ w - y
+    return w, np.sum(error ** 2) / (2 * N)
 
 
 def mean_squared_error_sgd(y, tx, initial_w, max_iters, gamma):
