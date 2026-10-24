@@ -16,20 +16,20 @@ def mean_squared_error_gd(y, tx, initial_w, max_iters, gamma):
 
 
 def mean_squared_error_sgd(y, tx, initial_w, max_iters, gamma):
-    w = initial_w
+    w = initial_w.copy()
+    N = y.shape[0]
 
     for _ in range(max_iters):
-        for j in np.random.permutation(len(y)):
+        for j in np.random.permutation(N):
             y_hat = np.dot(tx[j], w)
             gradient = -tx[j] * (y[j] - y_hat)
-            w = w - gamma*gradient
+            w = w - gamma * gradient
 
-    loss = 1/(2*y.shape[0]) * np.sum((tx@w - y)**2)
+    loss = np.sum((tx @ w - y) ** 2) / (2 * N)
     return w, loss
 
 
 def least_squares(y, tx):
-
     raise NotImplementedError("todo: to be implemented")
 
 
