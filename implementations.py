@@ -48,4 +48,19 @@ def logistic_regression(y, tx, initial_w, max_iters, gamma):
 
 
 def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
-    raise NotImplementedError("todo: to be implemented")
+    def sigmoid(t):
+        return 1 / (1 + np.exp(-t))
+
+    N, _ = tx.shape
+    w = initial_w
+    for _ in range(max_iters):
+        probs = sigmoid(tx @ w)
+        gradient = (1 / N) * tx.T @ (probs-y)
+        grad_reg_term = 2*lambda_*w
+        w = w - gamma * (grad_reg_term + gradient)
+
+    probs = sigmoid(tx @ w)
+    loss = -np.mean(y * np.log(probs) + (1 - y) * np.log(1 - probs))
+
+    reg_loss = loss + lambda_ * np.sum(w**2)
+    return w, reg_loss
