@@ -218,3 +218,18 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Project data (not versioned)
+data/
+
+# LaTeX build outputs
+*.aux
+*.bbl
+*.blg
+*.out
+*.synctex.gz
+report/*.log
+report/*.pdf
+
+# macOS
+.DS_Store
