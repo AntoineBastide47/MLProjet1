@@ -30,7 +30,9 @@ def mean_squared_error_sgd(y, tx, initial_w, max_iters, gamma):
 
 
 def least_squares(y, tx):
-    raise NotImplementedError("todo: to be implemented")
+    w = np.linalg.lstsq(tx, y, rcond=None)[0]
+    loss = np.mean((y - tx @ w) ** 2) / 2
+    return w, loss
 
 
 def ridge_regression(y, tx, lambda_):
@@ -44,7 +46,20 @@ def ridge_regression(y, tx, lambda_):
 
 
 def logistic_regression(y, tx, initial_w, max_iters, gamma):
-    raise NotImplementedError("todo: to be implemented")
+    def sigmoid(t):
+        return 1 / (1 + np.exp(-t))
+    
+    N, _ = tx.shape
+    w = initial_w
+    for _ in range(max_iters):
+        probs = sigmoid(tx @ w)
+        gradient = (1 / N) * tx.T @ (probs-y)
+        w = w - gamma * gradient
+
+    probs = sigmoid(tx @ w)
+    loss = -np.mean(y * np.log(probs) + (1 - y) * np.log(1 - probs))
+
+    return w, loss
 
 
 def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
