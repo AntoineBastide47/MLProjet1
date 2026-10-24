@@ -84,7 +84,13 @@ def ridge_regression(y, tx, lambda_):
         w: numpy array of shape (D,), optimal weights.
         loss: scalar, MSE loss of the optimal weights, without the penalty term.
     """
-    raise NotImplementedError("todo: to be implemented")
+    N, D = tx.shape
+    A = tx.T @ tx + 2 * N * lambda_ * np.eye(D)
+    b = tx.T @ y
+
+    w = np.linalg.solve(A, b)
+    error = y - tx @ w
+    return w, np.mean(error ** 2) / 2
 
 
 def logistic_regression(y, tx, initial_w, max_iters, gamma):
