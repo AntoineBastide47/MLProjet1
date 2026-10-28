@@ -3,7 +3,7 @@
 EPFL CS-433 Machine Learning, Project 1 (2026).
 
 This project predicts the BRFSS `_MICHD` target from clinical, demographic, and lifestyle variables. The final system uses class-weighted regularized logistic regression, engineered health-risk features, and a decision threshold selected by stratified cross-validation.
-    
+
 ## Team
 
 - Dany Moukaddam - SCIPER 378920
@@ -14,12 +14,27 @@ This project predicts the BRFSS `_MICHD` target from clinical, demographic, and 
 
 The project uses Python with NumPy and Matplotlib only.
 
+Create the virtual environment:
 ```bash
 python -m venv .venv
+```
+
+Run the environment:
+
+```bash
+# Linux or macOS
+source .venv/bin/activate
+# Windows PowerShell
+.\.venv\Scripts\Activate.ps1
+```
+
+Then install the dependencies:
+
+```bash
 python -m pip install -r requirements.txt
 ```
 
-Place the competition files without renaming them:
+Unzip and place the data files without renaming them:
 
 ```text
 data/
