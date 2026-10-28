@@ -16,32 +16,91 @@ SUBMISSION_PATH = "submission.csv"
 # A focused set of clinical, demographic, and behavior predictors. Survey IDs,
 # dates, and sampling/weighting fields are intentionally excluded.
 SELECTED_FEATURES = [
-    "GENHLTH", "PHYSHLTH", "MENTHLTH", "POORHLTH", "HLTHPLN1",
-    "PERSDOC2", "MEDCOST", "CHECKUP1", "BPHIGH4", "BPMEDS",
-    "BLOODCHO", "CHOLCHK", "TOLDHI2", "CVDSTRK3", "ASTHMA3",
-    "ASTHNOW", "CHCSCNCR", "CHCOCNCR", "CHCCOPD1", "HAVARTH3",
-    "ADDEPEV2", "CHCKIDNY", "DIABETE3", "SEX", "MARITAL",
-    "EDUCA", "RENTHOM1", "EMPLOY1", "INCOME2", "QLACTLM2",
-    "DIFFWALK", "SMOKE100", "SMOKDAY2", "STOPSMK2", "USENOW3",
-    "EXERANY2", "_AGE80", "_BMI5", "_SMOKER3", "_TOTINDA",
-    "_FRTLT1", "_VEGLT1",
+    "GENHLTH",
+    "PHYSHLTH",
+    "MENTHLTH",
+    "POORHLTH",
+    "HLTHPLN1",
+    "PERSDOC2",
+    "MEDCOST",
+    "CHECKUP1",
+    "BPHIGH4",
+    "BPMEDS",
+    "BLOODCHO",
+    "CHOLCHK",
+    "TOLDHI2",
+    "CVDSTRK3",
+    "ASTHMA3",
+    "ASTHNOW",
+    "CHCSCNCR",
+    "CHCOCNCR",
+    "CHCCOPD1",
+    "HAVARTH3",
+    "ADDEPEV2",
+    "CHCKIDNY",
+    "DIABETE3",
+    "SEX",
+    "MARITAL",
+    "EDUCA",
+    "RENTHOM1",
+    "EMPLOY1",
+    "INCOME2",
+    "QLACTLM2",
+    "DIFFWALK",
+    "SMOKE100",
+    "SMOKDAY2",
+    "STOPSMK2",
+    "USENOW3",
+    "EXERANY2",
+    "_AGE80",
+    "_BMI5",
+    "_SMOKER3",
+    "_TOTINDA",
+    "_FRTLT1",
+    "_VEGLT1",
 ]
 
 # Missing/refused codes are variable-specific in BRFSS.
 MISSING_CODES = {
-    "GENHLTH": (7, 9), "PHYSHLTH": (77, 99), "MENTHLTH": (77, 99),
-    "POORHLTH": (77, 99), "HLTHPLN1": (7, 9), "PERSDOC2": (7, 9),
-    "MEDCOST": (7, 9), "CHECKUP1": (7, 9), "BPHIGH4": (7, 9),
-    "BPMEDS": (7, 9), "BLOODCHO": (7, 9), "CHOLCHK": (7, 9),
-    "TOLDHI2": (7, 9), "CVDSTRK3": (7, 9), "ASTHMA3": (7, 9),
-    "ASTHNOW": (7, 9), "CHCSCNCR": (7, 9), "CHCOCNCR": (7, 9),
-    "CHCCOPD1": (7, 9), "HAVARTH3": (7, 9), "ADDEPEV2": (7, 9),
-    "CHCKIDNY": (7, 9), "DIABETE3": (7, 9), "MARITAL": (9,),
-    "EDUCA": (9,), "RENTHOM1": (7, 9), "EMPLOY1": (9,),
-    "INCOME2": (77, 99), "QLACTLM2": (7, 9), "DIFFWALK": (7, 9),
-    "SMOKE100": (7, 9), "SMOKDAY2": (7, 9), "STOPSMK2": (7, 9),
-    "USENOW3": (7, 9), "EXERANY2": (7, 9), "_BMI5": (9999,),
-    "_SMOKER3": (9,), "_TOTINDA": (9,), "_FRTLT1": (9,),
+    "GENHLTH": (7, 9),
+    "PHYSHLTH": (77, 99),
+    "MENTHLTH": (77, 99),
+    "POORHLTH": (77, 99),
+    "HLTHPLN1": (7, 9),
+    "PERSDOC2": (7, 9),
+    "MEDCOST": (7, 9),
+    "CHECKUP1": (7, 9),
+    "BPHIGH4": (7, 9),
+    "BPMEDS": (7, 9),
+    "BLOODCHO": (7, 9),
+    "CHOLCHK": (7, 9),
+    "TOLDHI2": (7, 9),
+    "CVDSTRK3": (7, 9),
+    "ASTHMA3": (7, 9),
+    "ASTHNOW": (7, 9),
+    "CHCSCNCR": (7, 9),
+    "CHCOCNCR": (7, 9),
+    "CHCCOPD1": (7, 9),
+    "HAVARTH3": (7, 9),
+    "ADDEPEV2": (7, 9),
+    "CHCKIDNY": (7, 9),
+    "DIABETE3": (7, 9),
+    "MARITAL": (9,),
+    "EDUCA": (9,),
+    "RENTHOM1": (7, 9),
+    "EMPLOY1": (9,),
+    "INCOME2": (77, 99),
+    "QLACTLM2": (7, 9),
+    "DIFFWALK": (7, 9),
+    "SMOKE100": (7, 9),
+    "SMOKDAY2": (7, 9),
+    "STOPSMK2": (7, 9),
+    "USENOW3": (7, 9),
+    "EXERANY2": (7, 9),
+    "_BMI5": (9999,),
+    "_SMOKER3": (9,),
+    "_TOTINDA": (9,),
+    "_FRTLT1": (9,),
     "_VEGLT1": (9,),
 }
 
@@ -56,7 +115,9 @@ def select_and_clean_features(x, source_names):
     if missing:
         raise ValueError(f"Missing expected BRFSS columns: {missing}")
 
-    selected = np.asarray(x, dtype=float)[:, [positions[n] for n in SELECTED_FEATURES]].copy()
+    selected = np.asarray(x, dtype=float)[
+        :, [positions[n] for n in SELECTED_FEATURES]
+    ].copy()
     for i, name in enumerate(SELECTED_FEATURES):
         for code in ZERO_CODES.get(name, ()):
             selected[selected[:, i] == code, i] = 0.0
@@ -126,8 +187,14 @@ def engineer_features(x, feature_names):
     # Count other chronic conditions. _MICHD is the target, so its component
     # diagnoses (heart attack and coronary heart disease) are deliberately omitted.
     comorbidity_names = [
-        "CVDSTRK3", "ASTHMA3", "CHCSCNCR", "CHCOCNCR", "CHCCOPD1",
-        "HAVARTH3", "ADDEPEV2", "CHCKIDNY",
+        "CVDSTRK3",
+        "ASTHMA3",
+        "CHCSCNCR",
+        "CHCOCNCR",
+        "CHCCOPD1",
+        "HAVARTH3",
+        "ADDEPEV2",
+        "CHCKIDNY",
     ]
     comorbidity_flags = []
     for name in comorbidity_names:
@@ -181,8 +248,15 @@ def engineer_features(x, feature_names):
     glucose_score[diabetes == 1] = 40.0
 
     le8_components = np.column_stack(
-        [diet_score, activity_score, nicotine_score, bmi_score,
-         cholesterol_score, glucose_score, bp_score]
+        [
+            diet_score,
+            activity_score,
+            nicotine_score,
+            bmi_score,
+            cholesterol_score,
+            glucose_score,
+            bp_score,
+        ]
     )
     le8_count = np.sum(np.isfinite(le8_components), axis=1)
     le8_proxy = np.nansum(le8_components, axis=1) / np.maximum(le8_count, 1)
@@ -249,6 +323,7 @@ def _stratified_folds(y, n_folds=5, seed=42):
         for i in range(n_folds)
     ]
 
+
 def classification_metrics(y_true, y_pred):
     tp = np.sum((y_true == 1) & (y_pred == 1))
     fp = np.sum((y_true == -1) & (y_pred == 1))
@@ -267,6 +342,7 @@ def classification_metrics(y_true, y_pred):
         "recall": recall,
         "f1": f1,
     }
+
 
 def _fit(y, tx, regularization, positive_weight_scale=1.0):
     y01 = (y == 1).astype(float)
@@ -316,7 +392,12 @@ def _best_f1_threshold(y_true, probabilities):
     tp = cumulative_tp[ends]
     fp = cumulative_fp[ends]
     fn = total_positive - tp
-    f1 = np.divide(2 * tp, 2 * tp + fp + fn, out=np.zeros_like(tp, dtype=float), where=(2 * tp + fp + fn) > 0)
+    f1 = np.divide(
+        2 * tp,
+        2 * tp + fp + fn,
+        out=np.zeros_like(tp, dtype=float),
+        where=(2 * tp + fp + fn) > 0,
+    )
     best = ends[int(np.argmax(f1))]
     threshold = float(sorted_probabilities[best])
     pred = np.where(probabilities >= threshold, 1, -1)
@@ -338,15 +419,11 @@ def train(y, x_raw, x_test_raw):
 
     # Preprocess once per fold; all 30 hyperparameter combinations reuse it.
     for fold_number, (train_idx, validation_idx) in enumerate(folds, start=1):
-        tx_train, tx_validation = preprocess(
-            x_raw[train_idx], x_raw[validation_idx]
-        )
+        tx_train, tx_validation = preprocess(x_raw[train_idx], x_raw[validation_idx])
         print(f"Fitting CV fold {fold_number}/5")
         for regularization, weight_scale in configs:
             config = (regularization, weight_scale)
-            w, info = _fit(
-                y[train_idx], tx_train, regularization, weight_scale
-            )
+            w, info = _fit(y[train_idx], tx_train, regularization, weight_scale)
             oof_probabilities[config][validation_idx] = _sigmoid(
                 tx_validation @ w
             ).astype(np.float32)
@@ -360,8 +437,12 @@ def train(y, x_raw, x_test_raw):
         convergence_infos = convergence[config]
         converged_folds = sum(info["converged"] for info in convergence_infos)
         mean_iterations = np.mean([info["iterations"] for info in convergence_infos])
-        mean_start_loss = np.mean([info["loss_history"][0] for info in convergence_infos])
-        mean_end_loss = np.mean([info["loss_history"][-1] for info in convergence_infos])
+        mean_start_loss = np.mean(
+            [info["loss_history"][0] for info in convergence_infos]
+        )
+        mean_end_loss = np.mean(
+            [info["loss_history"][-1] for info in convergence_infos]
+        )
         print(
             f"lambda={config[0]:g}, positive-weight multiplier={config[1]:g}, "
             f"threshold={threshold:.5f}: accuracy={metrics['accuracy']:.4f}, "
