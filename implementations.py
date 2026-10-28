@@ -44,7 +44,7 @@ def mean_squared_error_sgd(
         y: Target values
         tx: Feature matrix
         initial_w: Starting weights
-        max_iters: Number of epochs
+        max_iters: Number of updates
         gamma: Step size
     Returns:
         Fitted weights and final loss
@@ -53,10 +53,10 @@ def mean_squared_error_sgd(
     N = y.shape[0]
 
     for _ in range(max_iters):
-        for j in np.random.permutation(N):
-            y_hat = np.dot(tx[j], w)
-            gradient = -tx[j] * (y[j] - y_hat)
-            w = w - gamma * gradient
+        j = np.random.randint(N)
+        y_hat = np.dot(tx[j], w)
+        gradient = -tx[j] * (y[j] - y_hat)
+        w = w - gamma * gradient
 
     loss = np.sum((tx @ w - y) ** 2) / (2 * N)
     return w, loss
@@ -70,7 +70,7 @@ def least_squares(y: np.ndarray, tx: np.ndarray) -> Tuple[np.ndarray, np.floatin
     Returns:
         Fitted weights and loss
     """
-    w = np.linalg.lstsq(tx, y, rcond=None)[0]
+    w = np.linalg.solve(tx.T @ tx, tx.T @ y)
     loss = np.mean((y - tx @ w) ** 2) / 2
     return w, loss
 
