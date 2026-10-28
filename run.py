@@ -279,7 +279,7 @@ def _fit(y, tx, regularization, positive_weight_scale=1.0):
     }
 
     initial_w = np.zeros(tx.shape[1])
-    w, loss, info = implementations.reg_logistic_regression(
+    w, loss, info = implementations.weighted_reg_logistic_regression(
         y01,
         tx,
         regularization,
