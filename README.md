@@ -93,6 +93,10 @@ The comorbidity feature excludes diagnoses that define `_MICHD`. All engineered 
 
 The reported run selected `lambda = 1e-4`, positive-class weight multiplier `0.75`, and threshold `0.6513`, obtaining pooled out-of-fold F1 `0.4220`.
 
+### Note on our implementation
+
+`reg_logistic_regression` provides the required baseline interface used by the grading tests. The final pipeline uses `weighted_reg_logistic_regression`, which adds class weighting, early stopping, optimization diagnostics, and an unregularized intercept (more information in the report)
+
 ## Repository structure
 
 - `implementations.py`: the six required ML methods and the weighted logistic-regression extension.
